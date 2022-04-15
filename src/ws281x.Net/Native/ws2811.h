@@ -35,6 +35,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 #include "rpihw.h"
 #include "pwm.h"
 
@@ -66,7 +68,7 @@ extern "C" {
 struct ws2811_device;
 
 typedef uint32_t ws2811_led_t;                   //< 0xWWRRGGBB
-typedef struct
+typedef struct ws2811_channel_t
 {
     int gpionum;                                 //< GPIO Pin with PWM alternate function, 0 if unused
     int invert;                                  //< Invert output signal
@@ -81,7 +83,7 @@ typedef struct
     uint8_t *gamma;                              //< Gamma correction table
 } ws2811_channel_t;
 
-typedef struct
+typedef struct ws2811_t
 {
     uint64_t render_wait_time;                   //< time in µs before the next render can run
     struct ws2811_device *device;                //< Private data for driver use
@@ -117,11 +119,12 @@ typedef enum {
     WS2811_RETURN_STATE_COUNT
 } ws2811_return_t;
 
-ws2811_return_t ws2811_init(ws2811_t *ws2811);                         //< Initialize buffers/hardware
-void ws2811_fini(ws2811_t *ws2811);                                    //< Tear it all down
-ws2811_return_t ws2811_render(ws2811_t *ws2811);                       //< Send LEDs off to hardware
-ws2811_return_t ws2811_wait(ws2811_t *ws2811);                         //< Wait for DMA completion
-const char * ws2811_get_return_t_str(const ws2811_return_t state);     //< Get string representation of the given return state
+ws2811_return_t ws2811_init(ws2811_t *ws2811);                                  //< Initialize buffers/hardware
+void ws2811_fini(ws2811_t *ws2811);                                             //< Tear it all down
+ws2811_return_t ws2811_render(ws2811_t *ws2811);                                //< Send LEDs off to hardware
+ws2811_return_t ws2811_wait(ws2811_t *ws2811);                                  //< Wait for DMA completion
+const char * ws2811_get_return_t_str(const ws2811_return_t state);              //< Get string representation of the given return state
+void ws2811_set_custom_gamma_factor(ws2811_t *ws2811, double gamma_factor);     //< Set a custom Gamma correction array based on a gamma correction factor
 
 #ifdef __cplusplus
 }

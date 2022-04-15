@@ -31,6 +31,7 @@
 #ifndef __PCM_H__
 #define __PCM_H__
 
+#include <stdint.h>
 
 /*
  *
@@ -75,7 +76,7 @@ typedef struct
 #define RPI_PCM_CS_RXON                         (1 << 1)
 #define RPI_PCM_CS_EN                           (1 << 0)
     uint32_t fifo;
-    uint32_t mode;;
+    uint32_t mode;
 #define RPI_PCM_MODE_CLK_DIS                    (1 << 28)
 #define RPI_PCM_MODE_PDMN                       (1 << 27)
 #define RPI_PCM_MODE_PDME                       (1 << 26)
